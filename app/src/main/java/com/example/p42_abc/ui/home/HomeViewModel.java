@@ -11,9 +11,11 @@ import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
+    private final MutableLiveData<Author> _selectedAuthor;
     private final MutableLiveData<List<Author>> _authorList;
 
     public HomeViewModel() {
+        _selectedAuthor = new MutableLiveData<>();
         _authorList = new MutableLiveData<>();
         loadAuthors();
     }
@@ -24,6 +26,14 @@ public class HomeViewModel extends ViewModel {
             authors.add(new Author("Adolf", "Hitler"));
         }
         _authorList.setValue(authors);
+    }
+
+    public void setSelectedAuthor(Author author) {
+        _selectedAuthor.setValue(author);
+    }
+
+    public MutableLiveData<Author> getSelectedAuthor() {
+        return _selectedAuthor;
     }
 
     public LiveData<List<Author>> getAuthorList() {

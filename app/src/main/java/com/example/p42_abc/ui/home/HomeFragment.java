@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.p42_abc.R;
 import com.example.p42_abc.adapter.AuthorAdapter;
 import com.example.p42_abc.databinding.FragmentHomeBinding;
 
@@ -32,12 +33,21 @@ public class HomeFragment extends Fragment {
         View root = _binding.getRoot();
 
         RecyclerView recyclerView = _binding.recyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        _authorAdapter = new AuthorAdapter(new ArrayList<>());
-        recyclerView.setAdapter(_authorAdapter);
+        _homeViewModel.getAuthorList().observe(getViewLifecycleOwner(), authors -> {
+            _authorAdapter = new AuthorAdapter(authors, author -> {
+                _homeViewModel.setSelectedAuthor(author);
 
-        _homeViewModel.getAuthorList().observe(getViewLifecycleOwner(), authors -> _authorAdapter.updateList(authors));
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_activity_main, new AuthorFragment())
+                        .addToBackStack(null)
+                        .commit();
+
+            });
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(_authorAdapter);
+        });
         return root;
     }
 

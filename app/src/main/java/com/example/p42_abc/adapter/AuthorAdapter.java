@@ -9,15 +9,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.p42_abc.R;
 import com.example.p42_abc.model.Author;
 
 import java.util.List;
 
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorViewHolder> {
     private List<Author> _authorList;
+    private OnAuthorClickListener _listener;
 
-    public AuthorAdapter(List<Author> authorList) {
+    public AuthorAdapter(List<Author> authorList, OnAuthorClickListener listener) {
         _authorList = authorList;
+        _listener = listener;
+    }
+
+    public interface OnAuthorClickListener {
+        void onAuthorClick(Author author);
     }
 
     @NonNull
@@ -43,7 +50,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     @Override
     public void onBindViewHolder(@NonNull AuthorAdapter.AuthorViewHolder holder, int position) {
         Author author = _authorList.get(position);
-        holder._authorName.setText(author.getFirstname() + " " + author.getLastname());
+        holder.bind(author, _listener);
 
     }
 
@@ -60,10 +67,19 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
 
     public static class AuthorViewHolder extends RecyclerView.ViewHolder {
         TextView _authorName;
+        TextView _authorDetails;
 
-        public AuthorViewHolder(View itemView, TextView authorName) {
+        public AuthorViewHolder(@NonNull View itemView, TextView authorName) {
             super(itemView);
+            _authorDetails = itemView.findViewById(R.id.authorDetails);
             _authorName = authorName;
+        }
+
+        @SuppressLint("SetTextI18n")
+        public void bind(Author author, OnAuthorClickListener listener) {
+            _authorName.setText(author.getLastname() + " " + author.getFirstname());
+            _authorDetails.setText("HEIIIIILLLLL");
+            itemView.setOnClickListener(v -> listener.onAuthorClick(author));
         }
     }
 }
