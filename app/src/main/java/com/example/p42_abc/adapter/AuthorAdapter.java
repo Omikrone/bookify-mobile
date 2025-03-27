@@ -1,6 +1,7 @@
 package com.example.p42_abc.adapter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -12,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.p42_abc.R;
 import com.example.p42_abc.model.Author;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorViewHolder> {
     private List<Author> _authorList;
-    private OnAuthorClickListener _listener;
+    private final OnAuthorClickListener _listener;
 
     public AuthorAdapter(List<Author> authorList, OnAuthorClickListener listener) {
         _authorList = authorList;
@@ -31,11 +34,15 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     @Override
     public AuthorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LinearLayout linearLayout = new LinearLayout(parent.getContext());
+        linearLayout.setClickable(true);
+        linearLayout.setFocusable(true);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         TextView authorName = new TextView(parent.getContext());
+        authorName.setFocusable(false);
+        authorName.setClickable(false);
         authorName.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         authorName.setTextSize(16);
@@ -66,20 +73,22 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     }
 
     public static class AuthorViewHolder extends RecyclerView.ViewHolder {
-        TextView _authorName;
         TextView _authorDetails;
+        TextView _authorName;
 
         public AuthorViewHolder(@NonNull View itemView, TextView authorName) {
             super(itemView);
-            _authorDetails = itemView.findViewById(R.id.authorDetails);
             _authorName = authorName;
         }
 
         @SuppressLint("SetTextI18n")
         public void bind(Author author, OnAuthorClickListener listener) {
             _authorName.setText(author.getLastname() + " " + author.getFirstname());
-            _authorDetails.setText("HEIIIIILLLLL");
+            if (_authorDetails != null) {
+                _authorDetails.setText("HEIIIIILLLLL");
+            }
             itemView.setOnClickListener(v -> listener.onAuthorClick(author));
         }
     }
+
 }

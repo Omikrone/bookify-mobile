@@ -1,6 +1,7 @@
 package com.example.p42_abc.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class HomeFragment extends Fragment {
                         .addToBackStack(null)
                         .commit();
 
+                Log.d("AuthorClick", "Auteur sélectionné : " + author.getFirstname() + " " + author.getLastname());
             });
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
