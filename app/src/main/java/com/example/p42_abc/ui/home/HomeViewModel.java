@@ -1,5 +1,7 @@
 package com.example.p42_abc.ui.home;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -22,13 +24,21 @@ public class HomeViewModel extends ViewModel {
 
     private void loadAuthors() {
         List<Author> authors = new ArrayList<>();
+        String[] firstNames = {"John", "Jane", "Alice", "Bob", "Charlie", "Emma"};
+        String[] lastNames = {"Doe", "Smith", "Brown", "Johnson", "White", "Davis"};
+
         for (int i = 0; i < 40; i++) {
-            authors.add(new Author("Adolf", "Hitler"));
+            String firstName = firstNames[i % firstNames.length];
+            String lastName = lastNames[i % lastNames.length];
+            authors.add(new Author(lastName, firstName));
         }
+
         _authorList.setValue(authors);
     }
 
+
     public void setSelectedAuthor(Author author) {
+        Log.d("AuthorFragment", "Author received: " + this);
         _selectedAuthor.setValue(author);
     }
 

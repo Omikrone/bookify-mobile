@@ -1,15 +1,15 @@
 package com.example.p42_abc.ui.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,29 +27,29 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        _homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        _homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = _binding.getRoot();
 
         RecyclerView recyclerView = _binding.recyclerView;
 
-        _homeViewModel.getAuthorList().observe(getViewLifecycleOwner(), authors -> {
-            _authorAdapter = new AuthorAdapter(authors, author -> {
-                _homeViewModel.setSelectedAuthor(author);
+        // Initialiser l'Adapter une seule fois avec une liste vide
+        _authorAdapter = new AuthorAdapter(new ArrayList<>(), author -> {
+            _homeViewModel.setSelectedAuthor(author);
 
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment_activity_main, new AuthorFragment())
-                        .addToBackStack(null)
-                        .commit();
-
-                Log.d("AuthorClick", "Auteur sélectionné : " + author.getFirstname() + " " + author.getLastname());
-            });
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setAdapter(_authorAdapter);
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+            navController.navigate(R.id.action_navigation_home_to_authorFragment);
         });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(_authorAdapter);
+
+        // Observer la liste et la mettre à jour sans recréer l'Adapter
+        _homeViewModel.getAuthorList().observe(getViewLifecycleOwner(), authors -> {
+            _authorAdapter.updateList(authors);
+        });
+
         return root;
     }
 
