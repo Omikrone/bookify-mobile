@@ -34,7 +34,6 @@ public class HomeFragment extends Fragment {
 
         RecyclerView recyclerView = _binding.recyclerView;
 
-        // Initialiser l'Adapter une seule fois avec une liste vide
         _authorAdapter = new AuthorAdapter(new ArrayList<>(), author -> {
             _homeViewModel.setSelectedAuthor(author);
 
@@ -45,7 +44,6 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(_authorAdapter);
 
-        // Observer la liste et la mettre à jour sans recréer l'Adapter
         _homeViewModel.getAuthorList().observe(getViewLifecycleOwner(), authors -> {
             _authorAdapter.updateList(authors);
         });

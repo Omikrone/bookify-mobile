@@ -31,7 +31,6 @@ public class AuthorFragment extends Fragment {
         viewModel.getSelectedAuthor().observe(getViewLifecycleOwner(), author -> {
             if (author != null) {
                 Log.d("AuthorFragment", "Selected Author: " + author.getFirstname() + " " + author.getLastname());
-                // Mettre à jour le texte du TextView
                 authorDetails.setText(author.getFirstname() + " " + author.getLastname());
                 authorDetails.setVisibility(View.VISIBLE);
             }

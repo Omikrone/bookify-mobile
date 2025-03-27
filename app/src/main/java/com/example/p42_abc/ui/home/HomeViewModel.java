@@ -2,14 +2,21 @@ package com.example.p42_abc.ui.home;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.p42_abc.model.Author;
+import com.example.p42_abc.retrofit.ApiService;
+import com.example.p42_abc.retrofit.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeViewModel extends ViewModel {
 
@@ -22,23 +29,31 @@ public class HomeViewModel extends ViewModel {
         loadAuthors();
     }
 
+
     private void loadAuthors() {
-        List<Author> authors = new ArrayList<>();
-        String[] firstNames = {"John", "Jane", "Alice", "Bob", "Charlie", "Emma"};
-        String[] lastNames = {"Doe", "Smith", "Brown", "Johnson", "White", "Davis"};
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
-        for (int i = 0; i < 40; i++) {
-            String firstName = firstNames[i % firstNames.length];
-            String lastName = lastNames[i % lastNames.length];
-            authors.add(new Author(lastName, firstName));
-        }
+        Call<List<Author>> call = apiService.getAuthors();
+        call.enqueue(new Callback<List<Author>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Author>> call, @NonNull Response<List<Author>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    _authorList.setValue(response.body());
+                    Log.d("HomeViewModel", "CACA" + response.body().toString());
+                } else {
+                    Log.e("HomeViewModel", "Erreur dans la réponse API");
+                }
+            }
 
-        _authorList.setValue(authors);
+            @Override
+            public void onFailure(Call<List<Author>> call, Throwable t) {
+                Log.e("HomeViewModel", "Erreur lors de la récupération des auteurs", t);
+            }
+        });
     }
 
 
     public void setSelectedAuthor(Author author) {
-        Log.d("AuthorFragment", "Author received: " + this);
         _selectedAuthor.setValue(author);
     }
 
