@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.p42_abc.model.Author;
 import com.example.p42_abc.retrofit.ApiService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,33 +19,46 @@ import retrofit2.Response;
 
 public class AuthorRepository {
     private final ApiService _apiService;
+    private final int PAGE_SIZE = 20;
 
     public AuthorRepository(ApiService apiService) {
         _apiService = apiService;
     }
 
-    public LiveData<List<Author>> getAuthors() {
+    public LiveData<List<Author>> getAuthors(int page) {
+
         MutableLiveData<List<Author>> authorList = new MutableLiveData<>();
 
-        Call<List<Author>> call = _apiService.getAuthors();
+        Call<List<Author>> call = _apiService.getAuthors(page, PAGE_SIZE);
         call.enqueue(new Callback<List<Author>>() {
             @Override
             public void onResponse(@NonNull Call<List<Author>> call, @NonNull Response<List<Author>> response) {
+
                 if (response.isSuccessful() && response.body() != null) {
-                    authorList.setValue(response.body());
-                    Log.d("HomeViewModel", "Requête réussie : " + response.body().toString());
+                    List<Author> newAuthors = response.body();
+
+                    List<Author> currentList = authorList.getValue();
+                    if (currentList == null) {
+                        authorList.setValue(newAuthors);
+                    } else {
+                        List<Author> updatedList = new ArrayList<>(currentList);
+                        updatedList.addAll(newAuthors);
+                        authorList.setValue(updatedList);
+                    }
                 } else {
                     Log.e("HomeViewModel", "Erreur dans la réponse API");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Author>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Author>> call, @NonNull Throwable t) {
                 Log.e("HomeViewModel", "Erreur lors de la récupération des auteurs", t);
             }
         });
+
         return authorList;
     }
+
 
     public MutableLiveData<Author> addAuthor(AuthorRequest author) {
         MutableLiveData<Author> result = new MutableLiveData<>();

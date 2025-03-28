@@ -1,6 +1,7 @@
 package com.example.p42_abc.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,11 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding _binding;
-    HomeViewModel _homeViewModel;
+    private HomeViewModel _homeViewModel;
     private AuthorAdapter _authorAdapter;
+    private int _currentPage = 1;
+    boolean isLoading = false;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,34 @@ public class HomeFragment extends Fragment {
         _homeViewModel.getAuthorList().observe(getViewLifecycleOwner(), authors -> {
             _authorAdapter.updateList(authors);
         });
+
+        _homeViewModel.isLoading().observe(getViewLifecycleOwner(), loading -> {
+            isLoading = loading;
+        });
+
+        _homeViewModel.loadAuthors(_currentPage++);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (layoutManager == null) return;
+
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+
+                if (!isLoading && lastVisibleItem >= totalItemCount - 2) {
+                    Log.d("HomeFragment", "Loading more authors...");
+                    boolean result = _homeViewModel.loadAuthors(_currentPage);
+                    if (result) {
+                        _currentPage++;
+                        Log.d("HomeFragment", "Page " + _currentPage + " loaded");
+                    }
+                }
+            }
+        });
+
 
         return root;
     }

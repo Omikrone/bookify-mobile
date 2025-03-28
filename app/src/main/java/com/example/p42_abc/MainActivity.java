@@ -2,9 +2,12 @@ package com.example.p42_abc;
 
 import android.os.Bundle;
 
+import com.example.p42_abc.ui.dashboard.DashboardFragment;
+import com.example.p42_abc.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -12,6 +15,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.p42_abc.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import com.example.p42_abc.R;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,5 +46,13 @@ public class MainActivity extends AppCompatActivity {
             navController.navigate(R.id.action_navigation_home_to_addAuthorFragment);
         });
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        return NavigationUI.navigateUp(navController, new AppBarConfiguration.Builder(navController.getGraph()).build())
+                || super.onSupportNavigateUp();
+    }
+
 
 }
