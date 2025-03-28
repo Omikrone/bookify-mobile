@@ -16,19 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.p42_abc.R;
 import com.example.p42_abc.adapter.AuthorAdapter;
 import com.example.p42_abc.databinding.FragmentHomeBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.AndroidEntryPoint;
-
-@AndroidEntryPoint
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding _binding;
-    @Inject
     HomeViewModel _homeViewModel;
     private AuthorAdapter _authorAdapter;
 

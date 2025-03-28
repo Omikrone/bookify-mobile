@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.p42_abc.R;
 import com.example.p42_abc.model.Author;
+import com.example.p42_abc.retrofit.AuthorRequest;
 
 public class AddAuthorFragment extends Fragment {
 
     private HomeViewModel _viewModel;
 
     public AddAuthorFragment() {
-        // Obligatoire : constructeur vide pour le Fragment
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AddAuthorFragment extends Fragment {
         String firstname = firstnameInput.getText().toString();
         String lastname = lastnameInput.getText().toString();
 
-        Author newAuthor = new Author(0, firstname, lastname, "", null, null, null);
+        AuthorRequest newAuthor = new AuthorRequest(firstname, lastname, "", null, null, null);
         _viewModel.addAuthor(newAuthor).observe(getViewLifecycleOwner(), addedAuthor -> {
             if (addedAuthor != null) {
                 Toast.makeText(getContext(), "Auteur ajouté avec succès!", Toast.LENGTH_SHORT).show();

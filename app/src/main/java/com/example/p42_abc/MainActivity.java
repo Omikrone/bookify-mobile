@@ -13,7 +13,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.p42_abc.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import dagger.hilt.android.HiltAndroidApp;
 
 public class MainActivity extends AppCompatActivity {
 

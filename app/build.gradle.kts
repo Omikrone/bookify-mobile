@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -54,9 +53,4 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.material.v1110)
-    implementation(libs.androidx.hilt.lifecycle.viewmodel)
-    implementation(libs.hilt.android)
-    annotationProcessor(libs.hilt.android.compiler)
-    implementation(libs.hilt.android)
-    annotationProcessor(libs.hilt.compiler)
 }

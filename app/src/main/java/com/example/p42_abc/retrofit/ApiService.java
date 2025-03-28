@@ -14,5 +14,5 @@ public interface ApiService {
     Call<List<Author>> getAuthors();
 
     @POST("authors")
-    Call<Author> addAuthor(@Body Author author);
+    Call<Author> addAuthor(@Body AuthorRequest authorRequest);
 }
