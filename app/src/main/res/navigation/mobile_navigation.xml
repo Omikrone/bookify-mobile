@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_authorFragment"
             app:destination="@id/authorFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_addAuthorFragment"
+            app:destination="@id/addAuthorFragment" />
     </fragment>
 
     <fragment
@@ -25,4 +28,9 @@
         android:name="com.example.p42_abc.ui.home.AuthorFragment"
         android:label="fragment_author"
         tools:layout="@layout/fragment_author" />
+    <fragment
+        android:id="@+id/addAuthorFragment"
+        android:name="com.example.p42_abc.ui.home.AddAuthorFragment"
+        android:label="frament_add_author"
+        tools:layout="@layout/fragment_add_author"/>
 </navigation>

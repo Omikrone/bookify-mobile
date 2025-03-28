@@ -2,3 +2,12 @@
 plugins {
     alias(libs.plugins.android.application) apply false
 }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.hilt.android.gradle.plugin.v2405)
+    }
+}
