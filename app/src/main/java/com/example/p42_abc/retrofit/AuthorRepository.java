@@ -1,14 +1,12 @@
 package com.example.p42_abc.retrofit;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.p42_abc.model.Author;
-import com.example.p42_abc.retrofit.ApiService;
 
 import java.util.ArrayList;
 import java.util.List;

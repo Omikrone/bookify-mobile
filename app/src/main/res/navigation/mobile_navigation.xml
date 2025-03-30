@@ -22,10 +22,14 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.p42_abc.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/authorFragment"
-        android:name="com.example.p42_abc.ui.home.AuthorFragment"
+        android:name="com.example.p42_abc.ui.home.AuthorDetailsFragment"
         android:label="fragment_author"
         tools:layout="@layout/fragment_author" />
     <fragment
@@ -33,4 +37,9 @@
         android:name="com.example.p42_abc.ui.home.AddAuthorFragment"
         android:label="frament_add_author"
         tools:layout="@layout/fragment_add_author"/>
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="com.example.p42_abc.ui.dashboard.BookDetailsFragment"
+        android:label="fragment_book_details"
+        tools:layout="@layout/fragment_book_details" />
 </navigation>

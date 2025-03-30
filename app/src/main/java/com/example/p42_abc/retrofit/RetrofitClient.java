@@ -20,4 +20,8 @@ public class RetrofitClient {
     public static AuthorRepository provideAuthorRepository(ApiService apiService) {
         return new AuthorRepository(apiService);
     }
+
+    public static BookRepository provideBookRepository(ApiService apiService) {
+        return new BookRepository(apiService);
+    }
 }

@@ -10,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.p42_abc.R;
-import com.example.p42_abc.model.Author;
 
-public class AuthorFragment extends Fragment {
+public class AuthorDetailsFragment extends Fragment {
 
-    public AuthorFragment() {
+    public AuthorDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -30,7 +29,7 @@ public class AuthorFragment extends Fragment {
         // Observer les données dans le ViewModel
         viewModel.getSelectedAuthor().observe(getViewLifecycleOwner(), author -> {
             if (author != null) {
-                Log.d("AuthorFragment", "Selected Author: " + author.getFirstname() + " " + author.getLastname());
+                Log.d("AuthorDetailsFragment", "Selected Author: " + author.getFirstname() + " " + author.getLastname());
                 authorDetails.setText(author.getFirstname() + " " + author.getLastname());
                 authorDetails.setVisibility(View.VISIBLE);
             }

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorViewHolder> {
-    private List<Author> _authorList = new ArrayList<>();
+    private List<Author> _authorList;
     private final OnAuthorClickListener _listener;
 
     public AuthorAdapter(List<Author> authorList, OnAuthorClickListener listener) {
@@ -55,7 +55,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
 
         public AuthorViewHolder(@NonNull View itemView) {
             super(itemView);
-            _authorName = itemView.findViewById(R.id.authorName);
+            _authorName = itemView.findViewById(R.id.bookTitle);
         }
 
         @SuppressLint("SetTextI18n")
