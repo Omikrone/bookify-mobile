@@ -1,5 +1,7 @@
 package com.example.p42_abc.ui.home;
 
+import static android.view.View.INVISIBLE;
+
 import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.p42_abc.R;
 import com.example.p42_abc.retrofit.AuthorRequest;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -146,5 +151,13 @@ public class AddAuthorFragment extends Fragment {
                 calendar.get(Calendar.DAY_OF_MONTH)
         );
         datePickerDialog.show();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setVisibility(INVISIBLE);
     }
 }

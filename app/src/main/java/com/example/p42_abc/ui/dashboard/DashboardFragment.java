@@ -1,5 +1,7 @@
 package com.example.p42_abc.ui.dashboard;
 
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -17,17 +20,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.p42_abc.R;
 import com.example.p42_abc.adapter.BookAdapter;
 import com.example.p42_abc.databinding.FragmentDashboardBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding _binding;
+    private NavController _navController;
     private DashboardViewModel _dashboardViewModel;
     private BookAdapter _bookAdapter;
     private int _currentPage = 1;
     boolean isLoading = false;
 
+
+    public DashboardFragment() {}
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,8 @@ public class DashboardFragment extends Fragment {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = _binding.getRoot();
+
+        //_navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
 
         RecyclerView recyclerView = _binding.recyclerView;
 
@@ -86,6 +95,18 @@ public class DashboardFragment extends Fragment {
 
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
+            navController.navigate(R.id.action_navigation_dashboard_to_addBookFragment);
+        });
+        fab.setVisibility(VISIBLE);
     }
 
     @Override

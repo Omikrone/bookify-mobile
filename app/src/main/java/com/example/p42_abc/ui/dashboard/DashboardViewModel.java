@@ -49,8 +49,8 @@ public class DashboardViewModel extends ViewModel {
         return true;
     }
 
-    public MutableLiveData<Book> addBook(BookRequest bookRequest) {
-        return _bookRepository.addBook(bookRequest);
+    public MutableLiveData<Book> addBook(BookRequest bookRequest, int authorId) {
+        return _bookRepository.addBook(bookRequest, authorId);
     }
 
     public void setSelectedBook(Book book) {

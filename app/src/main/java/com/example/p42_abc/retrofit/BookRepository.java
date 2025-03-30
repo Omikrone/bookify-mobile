@@ -59,10 +59,10 @@ public class BookRepository {
     }
 
 
-    public MutableLiveData<Book> addBook(BookRequest book) {
+    public MutableLiveData<Book> addBook(BookRequest book, int authorId) {
         MutableLiveData<Book> result = new MutableLiveData<>();
 
-        _apiService.addBook(book).enqueue(new Callback<Book>() {
+        _apiService.addBook(authorId, book).enqueue(new Callback<Book>() {
             @Override
             public void onResponse(@NonNull Call<Book> call, @NonNull Response<Book> response) {
                 if (response.isSuccessful()) {

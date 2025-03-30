@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 import java.util.List;
@@ -21,6 +22,6 @@ public interface ApiService {
     @GET("books")
     Call<List<Book>> getBooks(@Query("page") int page, @Query("take") int take);
 
-    @POST("books")
-    Call<Book> addBook(@Body BookRequest bookRequest);
+    @POST("authors/{author_id}/books")
+    Call<Book> addBook(@Path ("author_id") int authorId, @Body BookRequest bookRequest);
 }
