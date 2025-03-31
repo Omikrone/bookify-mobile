@@ -4,25 +4,30 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.p42_abc.R;
 import com.example.p42_abc.model.Author;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorViewHolder> {
-    private List<Author> _authorList;
-    private final OnAuthorClickListener _listener;
+    private final List<Author> _authorList;
+    private final ItemClickListener _buttonListener;
+    private final ItemClickListener _itemListener;
 
-    public AuthorAdapter(List<Author> authorList, OnAuthorClickListener listener) {
+    public AuthorAdapter(List<Author> authorList, ItemClickListener btnListener, ItemClickListener itemListener) {
         _authorList = authorList;
-        _listener = listener;
+        _buttonListener = btnListener;
+        _itemListener = itemListener;
     }
 
-    public interface OnAuthorClickListener {
+    public interface ItemClickListener {
         void onAuthorClick(Author author);
+        void onButtonClick(Author author);
     }
 
     @NonNull
@@ -35,7 +40,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     @Override
     public void onBindViewHolder(@NonNull AuthorAdapter.AuthorViewHolder holder, int position) {
         Author author = _authorList.get(position);
-        holder.bind(author, _listener);
+        holder.bind(author, _itemListener, _buttonListener);
     }
 
     @Override
@@ -52,16 +57,19 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
 
     public static class AuthorViewHolder extends RecyclerView.ViewHolder {
         private final TextView _authorName;
+        private final ImageButton _button;
 
         public AuthorViewHolder(@NonNull View itemView) {
             super(itemView);
-            _authorName = itemView.findViewById(R.id.bookTitle);
+            _authorName = itemView.findViewById(R.id.authorName);
+            _button = itemView.findViewById(R.id.btn_delete);
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(Author author, OnAuthorClickListener listener) {
-            _authorName.setText(author.getLastname() + " " + author.getFirstname());
-            itemView.setOnClickListener(v -> listener.onAuthorClick(author));
+        public void bind(Author author, ItemClickListener itemListener, ItemClickListener buttonListener) {
+            _authorName.setText(author.getFirstname() + " " + author.getLastname());
+            itemView.setOnClickListener(v -> itemListener.onAuthorClick(author));
+            _button.setOnClickListener(v -> buttonListener.onButtonClick(author));
         }
     }
 }

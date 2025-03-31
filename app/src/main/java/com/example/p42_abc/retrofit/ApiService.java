@@ -5,6 +5,7 @@ import com.example.p42_abc.model.Book;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -18,6 +19,9 @@ public interface ApiService {
 
     @POST("authors")
     Call<Author> addAuthor(@Body AuthorRequest authorRequest);
+
+    @DELETE("authors/{author_id}")
+    Call<Author> deleteAuthor(@Path("author_id") int authorId);
 
     @GET("books")
     Call<List<Book>> getBooks(@Query("page") int page, @Query("take") int take);

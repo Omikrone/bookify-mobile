@@ -47,9 +47,7 @@ public class DashboardFragment extends Fragment {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = _binding.getRoot();
 
-        //_navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-
-        RecyclerView recyclerView = _binding.recyclerView;
+        RecyclerView recyclerView = _binding.recyclerViewDashboard;
 
         _bookAdapter = new BookAdapter(new ArrayList<>(), book -> {
             _dashboardViewModel.setSelectedBook(book);

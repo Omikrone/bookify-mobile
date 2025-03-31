@@ -44,13 +44,13 @@ public class AuthorRepository {
                         authorList.setValue(updatedList);
                     }
                 } else {
-                    Log.e("HomeViewModel", "Erreur dans la réponse API");
+                    Log.e("AuthorRepository", "Erreur dans la réponse API");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Author>> call, @NonNull Throwable t) {
-                Log.e("HomeViewModel", "Erreur lors de la récupération des auteurs", t);
+                Log.e("AuthorRepository", "Erreur lors de la récupération des auteurs", t);
             }
         });
 
@@ -80,5 +80,29 @@ public class AuthorRepository {
         });
 
         return result;
+    }
+
+    public Boolean deleteAuthor(int authorId) {
+        MutableLiveData<Author> result = new MutableLiveData<>();
+
+        _apiService.deleteAuthor(authorId).enqueue(new Callback<Author>() {
+            @Override
+            public void onResponse(@NonNull Call<Author> call, @NonNull Response<Author> response) {
+                if (response.isSuccessful()) {
+                    result.setValue(response.body());
+                } else {
+                    Log.e("AuthorRepository", "Échec de la suppression : " + response.errorBody());
+                    result.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Author> call, @NonNull Throwable t) {
+                Log.e("AuthorRepository", "Erreur réseau : " + t.getMessage());
+                result.setValue(null);
+            }
+        });
+
+        return true;
     }
 }

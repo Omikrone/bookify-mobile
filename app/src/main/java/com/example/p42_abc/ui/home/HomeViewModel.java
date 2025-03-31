@@ -1,5 +1,7 @@
 package com.example.p42_abc.ui.home;
 
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -52,6 +54,19 @@ public class HomeViewModel extends ViewModel {
 
     public MutableLiveData<Author> addAuthor(AuthorRequest authorRequest) {
         return _authorRepository.addAuthor(authorRequest);
+    }
+
+    public Boolean deleteAuthor(Author author) {
+        if (_authorRepository.deleteAuthor(author.getId())) {
+            List<Author> currentList = _authorList.getValue();
+            if (currentList != null) {
+                currentList.remove(author);
+                _authorList.setValue(currentList);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setSelectedAuthor(Author author) {
