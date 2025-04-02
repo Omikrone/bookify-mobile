@@ -1,22 +1,20 @@
-package com.example.p42_abc.ui.home;
-
-import android.widget.Toast;
+package com.example.p42_abc.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.p42_abc.model.Author;
-import com.example.p42_abc.retrofit.ApiService;
-import com.example.p42_abc.retrofit.AuthorRequest;
-import com.example.p42_abc.retrofit.RetrofitClient;
+import com.example.p42_abc.db.ApiService;
+import com.example.p42_abc.model.AuthorRequest;
+import com.example.p42_abc.db.ServiceInstantiate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.p42_abc.retrofit.AuthorRepository;
+import com.example.p42_abc.db.AuthorRepository;
 
-public class HomeViewModel extends ViewModel {
+public class AuthorViewModel extends ViewModel {
 
     private final MutableLiveData<Author> _selectedAuthor;
     private final MutableLiveData<List<Author>> _authorList;
@@ -24,11 +22,11 @@ public class HomeViewModel extends ViewModel {
     private final AuthorRepository _authorRepository;
     private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
 
-    public HomeViewModel() {
+    public AuthorViewModel() {
         _selectedAuthor = new MutableLiveData<>();
         _authorList = new MutableLiveData<>();
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        _authorRepository = RetrofitClient.provideAuthorRepository(apiService);
+        ApiService apiService = ServiceInstantiate.getClient().create(ApiService.class);
+        _authorRepository = ServiceInstantiate.provideAuthorRepository(apiService);
     }
 
     public boolean loadAuthors(int page) {

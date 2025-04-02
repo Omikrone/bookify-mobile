@@ -1,4 +1,4 @@
-package com.example.p42_abc.retrofit;
+package com.example.p42_abc.db;
 
 import android.util.Log;
 
@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.p42_abc.model.Book;
+import com.example.p42_abc.model.BookRequest;
 
 import java.util.ArrayList;
 import java.util.List;

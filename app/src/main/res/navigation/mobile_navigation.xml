@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.p42_abc.ui.home.HomeFragment"
+        android:name="com.example.p42_abc.ui.author.AuthorFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.p42_abc.ui.dashboard.DashboardFragment"
+        android:name="com.example.p42_abc.ui.book.BookFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
@@ -32,22 +32,22 @@
     </fragment>
     <fragment
         android:id="@+id/authorFragment"
-        android:name="com.example.p42_abc.ui.home.AuthorDetailsFragment"
+        android:name="com.example.p42_abc.ui.author.AuthorDetailsFragment"
         android:label="fragment_author"
-        tools:layout="@layout/fragment_author" />
+        tools:layout="@layout/fragment_author_details" />
     <fragment
         android:id="@+id/addAuthorFragment"
-        android:name="com.example.p42_abc.ui.home.AddAuthorFragment"
+        android:name="com.example.p42_abc.ui.author.AddAuthorFragment"
         android:label="fragment_add_author"
         tools:layout="@layout/fragment_add_author"/>
     <fragment
         android:id="@+id/bookDetailsFragment"
-        android:name="com.example.p42_abc.ui.dashboard.BookDetailsFragment"
+        android:name="com.example.p42_abc.ui.book.BookDetailsFragment"
         android:label="fragment_book_details"
         tools:layout="@layout/fragment_book_details" />
     <fragment
         android:id="@+id/addBookFragment"
-        android:name="com.example.p42_abc.ui.dashboard.AddBookFragment"
+        android:name="com.example.p42_abc.ui.book.AddBookFragment"
         android:label="AddBookFragment"
         tools:layout="@layout/fragment_add_book"/>
 </navigation>

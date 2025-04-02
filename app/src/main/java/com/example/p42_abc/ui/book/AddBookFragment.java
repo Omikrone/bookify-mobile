@@ -1,4 +1,4 @@
-package com.example.p42_abc.ui.dashboard;
+package com.example.p42_abc.ui.book;
 
 import static android.view.View.INVISIBLE;
 
@@ -19,12 +19,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.retrofit.BookRequest;
+import com.example.p42_abc.model.BookRequest;
+import com.example.p42_abc.viewmodel.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AddBookFragment extends Fragment {
 
-    private DashboardViewModel _viewModel;
+    private BookViewModel _viewModel;
     private EditText _title;
     private EditText _description;
     private EditText _publicationYear;
@@ -51,7 +52,7 @@ public class AddBookFragment extends Fragment {
         _publicationYear = view.findViewById(R.id.publicationYearBookInput);
         _auhorId = view.findViewById(R.id.authorIdBookInput);
 
-        _viewModel = new ViewModelProvider(requireActivity()).get(DashboardViewModel.class);
+        _viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
         return view;
     }

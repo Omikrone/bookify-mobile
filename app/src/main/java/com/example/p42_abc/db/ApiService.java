@@ -1,7 +1,9 @@
-package com.example.p42_abc.retrofit;
+package com.example.p42_abc.db;
 
 import com.example.p42_abc.model.Author;
+import com.example.p42_abc.model.AuthorRequest;
 import com.example.p42_abc.model.Book;
+import com.example.p42_abc.model.BookRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

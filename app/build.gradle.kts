@@ -53,4 +53,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.material.v1110)
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
 }

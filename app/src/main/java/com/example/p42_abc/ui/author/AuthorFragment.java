@@ -1,20 +1,15 @@
-package com.example.p42_abc.ui.home;
+package com.example.p42_abc.ui.author;
 
-import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-
-import static java.security.AccessController.getContext;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -24,22 +19,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.adapter.AuthorAdapter;
 import com.example.p42_abc.databinding.FragmentHomeBinding;
 import com.example.p42_abc.model.Author;
+import com.example.p42_abc.viewmodel.AuthorViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends Fragment implements AuthorAdapter.ItemClickListener {
+public class AuthorFragment extends Fragment implements AuthorAdapter.ItemClickListener {
 
     private FragmentHomeBinding _binding;
-    private HomeViewModel _homeViewModel;
+    private AuthorViewModel _homeViewModel;
     private AuthorAdapter _authorAdapter;
     private int _currentPage = 1;
     boolean isLoading = false;
 
-    public HomeFragment() {
+    public AuthorFragment() {
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +43,7 @@ public class HomeFragment extends Fragment implements AuthorAdapter.ItemClickLis
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        _homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        _homeViewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = _binding.getRoot();

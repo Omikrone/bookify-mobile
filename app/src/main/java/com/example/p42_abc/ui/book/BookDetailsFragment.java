@@ -1,4 +1,4 @@
-package com.example.p42_abc.ui.dashboard;
+package com.example.p42_abc.ui.book;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -11,13 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.ui.dashboard.DashboardViewModel;
+import com.example.p42_abc.viewmodel.BookViewModel;
 
 public class BookDetailsFragment extends Fragment {
 
-    public BookDetailsFragment() {
-        // Required empty public constructor
-    }
+    public BookDetailsFragment() {}
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -29,9 +27,8 @@ public class BookDetailsFragment extends Fragment {
         TextView bookPublicationYear = view.findViewById(R.id.publicationYear);
         TextView bookDescription = view.findViewById(R.id.description);
 
-         DashboardViewModel viewModel = new ViewModelProvider(requireActivity()).get(DashboardViewModel.class);
+         BookViewModel viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
-        // Observer les données dans le ViewModel
         viewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
             if (book != null) {
                 Log.d("BookDetailsFragment", "Selected Book: " + book.getTitle() + " " + book.getPublicationYear());

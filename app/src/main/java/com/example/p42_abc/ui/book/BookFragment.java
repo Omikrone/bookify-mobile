@@ -1,4 +1,4 @@
-package com.example.p42_abc.ui.dashboard;
+package com.example.p42_abc.ui.book;
 
 import static android.view.View.VISIBLE;
 
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -18,23 +17,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.adapter.BookAdapter;
 import com.example.p42_abc.databinding.FragmentDashboardBinding;
+import com.example.p42_abc.viewmodel.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class DashboardFragment extends Fragment {
+public class BookFragment extends Fragment {
 
     private FragmentDashboardBinding _binding;
     private NavController _navController;
-    private DashboardViewModel _dashboardViewModel;
+    private BookViewModel _dashboardViewModel;
     private BookAdapter _bookAdapter;
     private int _currentPage = 1;
     boolean isLoading = false;
 
 
-    public DashboardFragment() {}
+    public BookFragment() {}
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +41,7 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        _dashboardViewModel = new ViewModelProvider(requireActivity()).get(DashboardViewModel.class);
+        _dashboardViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = _binding.getRoot();

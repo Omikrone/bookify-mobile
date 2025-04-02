@@ -1,11 +1,10 @@
-package com.example.p42_abc.ui.home;
+package com.example.p42_abc.ui.author;
 
 import static android.view.View.INVISIBLE;
 
 import android.app.DatePickerDialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,22 +19,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.retrofit.AuthorRequest;
+import com.example.p42_abc.model.AuthorRequest;
+import com.example.p42_abc.viewmodel.AuthorViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AddAuthorFragment extends Fragment {
 
-    private HomeViewModel _viewModel;
+    private AuthorViewModel _viewModel;
     private EditText _firstname;
     private EditText _lastname;
     private EditText _biography;
@@ -74,7 +71,7 @@ public class AddAuthorFragment extends Fragment {
             showDatePickerDialog(_deathDate);
         });
 
-        _viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        _viewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
         return view;
     }

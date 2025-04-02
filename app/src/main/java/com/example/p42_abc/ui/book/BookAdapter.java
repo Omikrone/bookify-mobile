@@ -1,4 +1,4 @@
-package com.example.p42_abc.adapter;
+package com.example.p42_abc.ui.book;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.p42_abc.R;
-import com.example.p42_abc.model.Author;
 import com.example.p42_abc.model.Book;
 
 import java.util.List;

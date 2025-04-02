@@ -13,6 +13,18 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
+        <!-- ImageView pour la photo de l'auteur -->
+        <ImageView
+            android:id="@+id/authorImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Nom de l'auteur -->
         <TextView
             android:id="@+id/authorName"
             android:layout_width="0dp"
@@ -22,10 +34,12 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/authorImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_delete"
+            android:layout_marginStart="8dp"/>
 
+        <!-- Bouton de suppression -->
         <ImageButton
             android:id="@+id/btn_delete"
             android:layout_width="40dp"
@@ -37,6 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@android:color/white" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

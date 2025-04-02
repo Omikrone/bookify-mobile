@@ -1,19 +1,19 @@
-package com.example.p42_abc.ui.dashboard;
+package com.example.p42_abc.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.p42_abc.model.Book;
-import com.example.p42_abc.retrofit.ApiService;
-import com.example.p42_abc.retrofit.BookRepository;
-import com.example.p42_abc.retrofit.BookRequest;
-import com.example.p42_abc.retrofit.RetrofitClient;
+import com.example.p42_abc.db.ApiService;
+import com.example.p42_abc.db.BookRepository;
+import com.example.p42_abc.model.BookRequest;
+import com.example.p42_abc.db.ServiceInstantiate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardViewModel extends ViewModel {
+public class BookViewModel extends ViewModel {
 
     private final MutableLiveData<Book> _selectedBook;
     private final MutableLiveData<List<Book>> _bookList;
@@ -21,11 +21,11 @@ public class DashboardViewModel extends ViewModel {
     private final BookRepository _bookRepository;
     private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
 
-    public DashboardViewModel() {
+    public BookViewModel() {
         _selectedBook = new MutableLiveData<>();
         _bookList = new MutableLiveData<>();
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        _bookRepository = RetrofitClient.provideBookRepository(apiService);
+        ApiService apiService = ServiceInstantiate.getClient().create(ApiService.class);
+        _bookRepository = ServiceInstantiate.provideBookRepository(apiService);
     }
 
     public boolean loadBooks(int page) {

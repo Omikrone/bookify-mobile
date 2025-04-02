@@ -1,4 +1,4 @@
-package com.example.p42_abc.retrofit;
+package com.example.p42_abc.model;
 
 import com.google.gson.annotations.SerializedName;
 

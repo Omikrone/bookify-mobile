@@ -1,14 +1,18 @@
-package com.example.p42_abc.adapter;
+package com.example.p42_abc.ui.author;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.p42_abc.R;
 import com.example.p42_abc.model.Author;
 
@@ -34,7 +38,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     @Override
     public AuthorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_author, parent, false);
-        return new AuthorViewHolder(view);
+        return new AuthorViewHolder(view.getContext(), view);
     }
 
     @Override
@@ -58,16 +62,28 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     public static class AuthorViewHolder extends RecyclerView.ViewHolder {
         private final TextView _authorName;
         private final ImageButton _button;
+        private final ImageView _authorImage;
+        private final Context _context;
 
-        public AuthorViewHolder(@NonNull View itemView) {
+        public AuthorViewHolder(Context context, @NonNull View itemView) {
             super(itemView);
+            _context = context;
             _authorName = itemView.findViewById(R.id.authorName);
             _button = itemView.findViewById(R.id.btn_delete);
+            _authorImage = itemView.findViewById(R.id.authorImage);
         }
 
         @SuppressLint("SetTextI18n")
         public void bind(Author author, ItemClickListener itemListener, ItemClickListener buttonListener) {
             _authorName.setText(author.getFirstname() + " " + author.getLastname());
+            String imageUrl = author.getImage();
+
+            Glide.with(_context)
+                    .load(imageUrl)
+                    .circleCrop()
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error)
+                    .into(_authorImage);
             itemView.setOnClickListener(v -> itemListener.onAuthorClick(author));
             _button.setOnClickListener(v -> buttonListener.onButtonClick(author));
         }

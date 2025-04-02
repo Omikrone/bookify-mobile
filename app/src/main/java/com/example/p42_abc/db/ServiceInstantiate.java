@@ -1,9 +1,9 @@
-package com.example.p42_abc.retrofit;
+package com.example.p42_abc.db;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class ServiceInstantiate {
     private static final String BASE_URL = "https://bookify-api-jck1.onrender.com/";
     private static Retrofit retrofit;
 
