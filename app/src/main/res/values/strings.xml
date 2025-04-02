@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">p42-abc</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_author_page">Auteurs</string>
+    <string name="title_books_page">Livres</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ajouter_un_auteur">Ajouter un auteur</string>
     <string name="supprimer">Supprimer</string>
+    <string name="year_published">Année de publication</string>
+    <string name="publisher">Éditeur</string>
+    <string name="isbn">ISBN</string>
+    <string name="description">Description</string>
+    <string name="edit">Modifier</string>
+    <string name="delete">Supprimer</string>
+    <string name="author_image_desc">Photo de l\'auteur</string>
+    <string name="biography">Biographie</string>
+    <string name="works">Œuvres</string>
 </resources>

@@ -111,6 +111,7 @@ public class AuthorFragment extends Fragment implements AuthorAdapter.ItemClickL
 
     @Override
     public void onAuthorClick(Author author) {
+        _homeViewModel.clearBooks();
         _homeViewModel.setSelectedAuthor(author);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigate(R.id.action_navigation_home_to_authorFragment);

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -39,8 +38,6 @@ public class AddBookFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_book, container, false);
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ajouter un livre");
 
         Button submitBtn = view.findViewById(R.id.submit);
         submitBtn.setOnClickListener(v -> {
@@ -75,7 +72,7 @@ public class AddBookFragment extends Fragment {
             if (addedAuthor != null) {
                 Toast.makeText(getContext(), "Ajout réussi!", Toast.LENGTH_SHORT).show();
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.navigation_home);
+                navController.navigate(R.id.navigation_authors);
 
             } else {
                 Toast.makeText(getContext(), "Échec de l'ajout", Toast.LENGTH_SHORT).show();
@@ -109,4 +106,5 @@ public class AddBookFragment extends Fragment {
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
         fab.setVisibility(INVISIBLE);
     }
+
 }

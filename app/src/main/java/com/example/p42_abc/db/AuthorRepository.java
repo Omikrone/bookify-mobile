@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.p42_abc.model.Author;
 import com.example.p42_abc.model.AuthorRequest;
+import com.example.p42_abc.model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,28 @@ public class AuthorRepository {
         });
 
         return authorList;
+    }
+
+    public LiveData<List<Book>> getBooksByAuthor(int authorId) {
+        MutableLiveData<List<Book>> bookList = new MutableLiveData<>();
+
+        _apiService.getBooksByAuthor(authorId).enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    bookList.setValue(response.body());
+                } else {
+                    Log.e("AuthorRepository", "Erreur dans la réponse API");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Book>> call, @NonNull Throwable t) {
+                Log.e("AuthorRepository", "Erreur lors de la récupération des livres", t);
+            }
+        });
+
+        return bookList;
     }
 
 

@@ -9,6 +9,7 @@ import com.example.p42_abc.db.ApiService;
 import com.example.p42_abc.db.BookRepository;
 import com.example.p42_abc.model.BookRequest;
 import com.example.p42_abc.db.ServiceInstantiate;
+import com.example.p42_abc.model.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class BookViewModel extends ViewModel {
 
     private final MutableLiveData<Book> _selectedBook;
     private final MutableLiveData<List<Book>> _bookList;
+    private final MutableLiveData<List<Tag>> _bookTags;
 
     private final BookRepository _bookRepository;
     private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
@@ -24,6 +26,7 @@ public class BookViewModel extends ViewModel {
     public BookViewModel() {
         _selectedBook = new MutableLiveData<>();
         _bookList = new MutableLiveData<>();
+        _bookTags = new MutableLiveData<>();
         ApiService apiService = ServiceInstantiate.getClient().create(ApiService.class);
         _bookRepository = ServiceInstantiate.provideBookRepository(apiService);
     }
@@ -49,12 +52,40 @@ public class BookViewModel extends ViewModel {
         return true;
     }
 
+    public Boolean deleteBook(Book book) {
+        if (_bookRepository.deleteBook(book.getId())) {
+            List<Book> currentList = _bookList.getValue();
+            if (currentList != null) {
+                currentList.remove(book);
+                _bookList.setValue(currentList);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void loadTags(int bookId) {
+        _bookRepository.getTags(bookId).observeForever(tags -> {
+
+            if (tags != null) {
+                List<Tag> currentTags = _bookTags.getValue();
+                List<Tag> updatedTags = new ArrayList<>(currentTags);
+                updatedTags.addAll(tags);
+                _bookTags.setValue(updatedTags);
+
+            }
+        });
+    }
+
     public MutableLiveData<Book> addBook(BookRequest bookRequest, int authorId) {
         return _bookRepository.addBook(bookRequest, authorId);
     }
 
     public void setSelectedBook(Book book) {
+        _bookTags.setValue(new ArrayList<>());
         _selectedBook.setValue(book);
+
     }
 
     public MutableLiveData<Book> getSelectedBook() {
@@ -63,6 +94,10 @@ public class BookViewModel extends ViewModel {
 
     public LiveData<List<Book>> getBookList() {
         return _bookList;
+    }
+
+    public MutableLiveData<List<Tag>> getBookTags() {
+        return _bookTags;
     }
 
     public LiveData<Boolean> isLoading() {

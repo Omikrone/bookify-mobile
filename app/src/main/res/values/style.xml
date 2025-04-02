@@ -3,4 +3,11 @@
     <style name="Button.Red" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@color/red</item>
     </style>
+    <style name="TagTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="CircleShapeAppearance" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

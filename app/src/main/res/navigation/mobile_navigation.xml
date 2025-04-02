@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_authors">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_authors"
         android:name="com.example.p42_abc.ui.author.AuthorFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="@string/title_author_page"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_authorFragment"
             app:destination="@id/authorFragment" />
@@ -19,10 +19,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_books"
         android:name="com.example.p42_abc.ui.book.BookFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        android:label="@string/title_books_page"
+        tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_navigation_dashboard_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />
@@ -33,21 +33,25 @@
     <fragment
         android:id="@+id/authorFragment"
         android:name="com.example.p42_abc.ui.author.AuthorDetailsFragment"
-        android:label="fragment_author"
-        tools:layout="@layout/fragment_author_details" />
+        android:label="Liste des auteurs"
+        tools:layout="@layout/fragment_author_details" >
+        <action
+            android:id="@+id/action_authorFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addAuthorFragment"
         android:name="com.example.p42_abc.ui.author.AddAuthorFragment"
-        android:label="fragment_add_author"
+        android:label="Ajout d'un auteur"
         tools:layout="@layout/fragment_add_author"/>
     <fragment
         android:id="@+id/bookDetailsFragment"
         android:name="com.example.p42_abc.ui.book.BookDetailsFragment"
-        android:label="fragment_book_details"
+        android:label="Détails du livre"
         tools:layout="@layout/fragment_book_details" />
     <fragment
         android:id="@+id/addBookFragment"
         android:name="com.example.p42_abc.ui.book.AddBookFragment"
-        android:label="AddBookFragment"
+        android:label="Ajout d'un livre"
         tools:layout="@layout/fragment_add_book"/>
 </navigation>

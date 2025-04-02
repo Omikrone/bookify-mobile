@@ -2,6 +2,7 @@ package com.example.p42_abc.ui.author;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
         public void bind(Author author, ItemClickListener itemListener, ItemClickListener buttonListener) {
             _authorName.setText(author.getFirstname() + " " + author.getLastname());
             String imageUrl = author.getImage();
+            Log.d("AuthorAdapter", "Image URL: " + imageUrl);
 
             Glide.with(_context)
                     .load(imageUrl)

@@ -23,14 +23,14 @@ public class Book {
     private int _authorId;
 
     @SerializedName("avgRating")
-    private int _avgRating;
+    private float _avgRating;
 
-    @SerializedName("_count")
-    private Count _count;
+    //@SerializedName("_count")
+    //private Count _count;
 
     // Constructor
     public Book(int id, String title, int publicationYear, String cover, String description,
-                int authorId, int avgRating, Count count) {
+                int authorId, float avgRating) {
         this._id = id;
         this._title = title;
         this._publicationYear = publicationYear;
@@ -38,7 +38,6 @@ public class Book {
         this._description = description;
         this._authorId = authorId;
         this._avgRating = avgRating;
-        this._count = count;
     }
 
     public int getId() {
@@ -89,20 +88,12 @@ public class Book {
         this._authorId = authorId;
     }
 
-    public int getAvgRating() {
+    public float getAvgRating() {
         return _avgRating;
     }
 
-    public void setAvgRating(int avgRating) {
+    public void setAvgRating(float avgRating) {
         this._avgRating = avgRating;
-    }
-
-    public Count getCount() {
-        return _count;
-    }
-
-    public void setCount(Count count) {
-        this._count = count;
     }
 
     @Override
@@ -115,7 +106,6 @@ public class Book {
                 ", description='" + _description + '\'' +
                 ", authorId=" + _authorId +
                 ", avgRating=" + _avgRating +
-                ", count=" + _count +
                 '}';
     }
 }

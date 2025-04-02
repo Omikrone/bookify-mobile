@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -47,8 +46,6 @@ public class AddAuthorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_author, container, false);
-
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Ajouter un auteur");
 
         Button submitBtn = view.findViewById(R.id.submit);
         submitBtn.setOnClickListener(v -> {
@@ -109,7 +106,7 @@ public class AddAuthorFragment extends Fragment {
             if (addedAuthor != null) {
                 Toast.makeText(getContext(), "Ajout réussi!", Toast.LENGTH_SHORT).show();
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.navigation_home);
+                navController.navigate(R.id.navigation_authors);
 
             } else {
                 Toast.makeText(getContext(), "Échec de l'ajout", Toast.LENGTH_SHORT).show();

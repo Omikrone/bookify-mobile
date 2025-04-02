@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.p42_abc.db.AuthorRepository;
+import com.example.p42_abc.model.Book;
 
 public class AuthorViewModel extends ViewModel {
 
     private final MutableLiveData<Author> _selectedAuthor;
     private final MutableLiveData<List<Author>> _authorList;
+    private final MutableLiveData<List<Book>> _authorBooks;
 
     private final AuthorRepository _authorRepository;
     private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
@@ -25,6 +27,7 @@ public class AuthorViewModel extends ViewModel {
     public AuthorViewModel() {
         _selectedAuthor = new MutableLiveData<>();
         _authorList = new MutableLiveData<>();
+        _authorBooks = new MutableLiveData<>();
         ApiService apiService = ServiceInstantiate.getClient().create(ApiService.class);
         _authorRepository = ServiceInstantiate.provideAuthorRepository(apiService);
     }
@@ -50,6 +53,21 @@ public class AuthorViewModel extends ViewModel {
         return true;
     }
 
+    public void loadAuthorBooks() {
+        _authorRepository.getBooksByAuthor(_selectedAuthor.getValue().getId()).observeForever(books -> {
+            if (books != null) {
+                List<Book> currentList = _authorBooks.getValue();
+                if (currentList == null) {
+                    _authorBooks.setValue(books);
+                } else {
+                    List<Book> updatedList = new ArrayList<>(currentList);
+                    updatedList.addAll(books);
+                    _authorBooks.setValue(updatedList);
+                }
+            }
+        });
+    }
+
     public MutableLiveData<Author> addAuthor(AuthorRequest authorRequest) {
         return _authorRepository.addAuthor(authorRequest);
     }
@@ -67,6 +85,10 @@ public class AuthorViewModel extends ViewModel {
         }
     }
 
+    public void clearBooks() {
+        _authorBooks.setValue(new ArrayList<>());
+    }
+
     public void setSelectedAuthor(Author author) {
         _selectedAuthor.setValue(author);
     }
@@ -77,6 +99,9 @@ public class AuthorViewModel extends ViewModel {
 
     public LiveData<List<Author>> getAuthorList() {
         return _authorList;
+    }
+    public LiveData<List<Book>> getAuthorBooks() {
+        return _authorBooks;
     }
 
     public LiveData<Boolean> isLoading() {
