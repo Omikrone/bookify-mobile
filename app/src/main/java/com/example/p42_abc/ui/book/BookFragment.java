@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.databinding.FragmentDashboardBinding;
+import com.example.p42_abc.databinding.FragmentBookBinding;
 import com.example.p42_abc.viewmodel.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class BookFragment extends Fragment {
 
-    private FragmentDashboardBinding _binding;
+    private FragmentBookBinding _binding;
     private NavController _navController;
     private BookViewModel _dashboardViewModel;
     private BookAdapter _bookAdapter;
@@ -43,7 +43,7 @@ public class BookFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         _dashboardViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        _binding = FragmentBookBinding.inflate(inflater, container, false);
         View root = _binding.getRoot();
 
         RecyclerView recyclerView = _binding.recyclerViewDashboard;

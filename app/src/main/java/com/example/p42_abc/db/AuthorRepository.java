@@ -25,11 +25,11 @@ public class AuthorRepository {
         _apiService = apiService;
     }
 
-    public LiveData<List<Author>> getAuthors(int page) {
+    public LiveData<List<Author>> getAuthors(int page, String firstname, String lastname) {
 
         MutableLiveData<List<Author>> authorList = new MutableLiveData<>();
 
-        Call<List<Author>> call = _apiService.getAuthors(page, PAGE_SIZE);
+        Call<List<Author>> call = _apiService.getAuthors(page, PAGE_SIZE, firstname, lastname);
         call.enqueue(new Callback<List<Author>>() {
             @Override
             public void onResponse(@NonNull Call<List<Author>> call, @NonNull Response<List<Author>> response) {

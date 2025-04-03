@@ -9,7 +9,7 @@
         android:id="@+id/navigation_authors"
         android:name="com.example.p42_abc.ui.author.AuthorFragment"
         android:label="@string/title_author_page"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_author">
         <action
             android:id="@+id/action_navigation_home_to_authorFragment"
             app:destination="@id/authorFragment" />
@@ -22,7 +22,7 @@
         android:id="@+id/navigation_books"
         android:name="com.example.p42_abc.ui.book.BookFragment"
         android:label="@string/title_books_page"
-        tools:layout="@layout/fragment_dashboard">
+        tools:layout="@layout/fragment_book">
         <action
             android:id="@+id/action_navigation_dashboard_to_bookDetailsFragment"
             app:destination="@id/bookDetailsFragment" />

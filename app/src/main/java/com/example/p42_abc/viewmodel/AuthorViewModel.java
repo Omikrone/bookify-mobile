@@ -32,11 +32,11 @@ public class AuthorViewModel extends ViewModel {
         _authorRepository = ServiceInstantiate.provideAuthorRepository(apiService);
     }
 
-    public boolean loadAuthors(int page) {
+    public boolean loadAuthors(int page, String firstname, String lastname) {
         if (Boolean.TRUE.equals(_isLoading.getValue())) return false;
         _isLoading.setValue(true);
 
-        _authorRepository.getAuthors(page).observeForever(authors -> {
+        _authorRepository.getAuthors(page, firstname, lastname).observeForever(authors -> {
             if (authors != null) {
                 List<Author> currentList = _authorList.getValue();
                 if (currentList == null) {
@@ -49,7 +49,6 @@ public class AuthorViewModel extends ViewModel {
             }
             _isLoading.setValue(false);
         });
-
         return true;
     }
 

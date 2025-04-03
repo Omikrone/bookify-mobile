@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.p42_abc"
     compileSdk = 35
 
@@ -57,4 +58,6 @@ dependencies {
     annotationProcessor(libs.compiler)
     implementation(libs.material.v190)
     implementation(libs.flexbox)
+    implementation(libs.androidx.appcompat.v161)
+    implementation(libs.androidx.core.ktx)
 }

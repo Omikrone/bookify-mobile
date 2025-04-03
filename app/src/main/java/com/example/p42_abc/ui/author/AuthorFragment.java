@@ -17,9 +17,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.search.SearchBar;
 
 import com.example.p42_abc.R;
-import com.example.p42_abc.databinding.FragmentHomeBinding;
+import com.example.p42_abc.databinding.FragmentAuthorBinding;
 import com.example.p42_abc.model.Author;
 import com.example.p42_abc.viewmodel.AuthorViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 
 public class AuthorFragment extends Fragment implements AuthorAdapter.ItemClickListener {
 
-    private FragmentHomeBinding _binding;
+    private FragmentAuthorBinding _binding;
     private AuthorViewModel _homeViewModel;
     private AuthorAdapter _authorAdapter;
     private int _currentPage = 1;
@@ -45,10 +46,10 @@ public class AuthorFragment extends Fragment implements AuthorAdapter.ItemClickL
                              ViewGroup container, Bundle savedInstanceState) {
         _homeViewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false);
+        _binding = FragmentAuthorBinding.inflate(inflater, container, false);
         View root = _binding.getRoot();
 
-        RecyclerView recyclerView = _binding.recyclerViewHome;
+        RecyclerView recyclerView = _binding.recyclerViewAuthor;
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
 
         _authorAdapter = new AuthorAdapter(new ArrayList<>(), this, this);
@@ -64,7 +65,7 @@ public class AuthorFragment extends Fragment implements AuthorAdapter.ItemClickL
         });
 
 
-        _homeViewModel.loadAuthors(_currentPage++);
+        _homeViewModel.loadAuthors(_currentPage++, null, null);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -78,7 +79,7 @@ public class AuthorFragment extends Fragment implements AuthorAdapter.ItemClickL
 
                 if (!isLoading && lastVisibleItem >= totalItemCount - 2) {
                     Log.d("HomeFragment", "Loading more authors...");
-                    boolean result = _homeViewModel.loadAuthors(_currentPage);
+                    boolean result = _homeViewModel.loadAuthors(_currentPage, null, null);
                     if (result) {
                         _currentPage++;
                         Log.d("HomeFragment", "Page " + _currentPage + " loaded");

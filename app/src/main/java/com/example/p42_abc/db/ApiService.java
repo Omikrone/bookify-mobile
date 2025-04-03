@@ -1,5 +1,7 @@
 package com.example.p42_abc.db;
 
+import androidx.annotation.Nullable;
+
 import com.example.p42_abc.model.Author;
 import com.example.p42_abc.model.AuthorRequest;
 import com.example.p42_abc.model.Book;
@@ -18,7 +20,11 @@ import java.util.List;
 
 public interface ApiService {
     @GET("authors")
-    Call<List<Author>> getAuthors(@Query("page") int page, @Query("take") int take);
+    Call<List<Author>> getAuthors(@Query("page") int page,
+                                  @Query("take") int take,
+                                  @Query("firstname") @Nullable String firstname,
+                                  @Query("lastname") @Nullable String lastname
+                                  );
 
     @POST("authors")
     Call<Author> addAuthor(@Body AuthorRequest authorRequest);
