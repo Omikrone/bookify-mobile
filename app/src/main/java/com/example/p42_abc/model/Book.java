@@ -1,5 +1,6 @@
 package com.example.p42_abc.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Book {
@@ -25,8 +26,7 @@ public class Book {
     @SerializedName("avgRating")
     private float _avgRating;
 
-    //@SerializedName("_count")
-    //private Count _count;
+    private transient Author author;
 
     // Constructor
     public Book(int id, String title, int publicationYear, String cover, String description,

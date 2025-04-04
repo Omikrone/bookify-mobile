@@ -1,5 +1,7 @@
 package com.example.p42_abc.model;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 public class BookRequest {

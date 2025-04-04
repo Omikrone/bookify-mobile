@@ -31,11 +31,11 @@ public class BookViewModel extends ViewModel {
         _bookRepository = ServiceInstantiate.provideBookRepository(apiService);
     }
 
-    public boolean loadBooks(int page) {
+    public boolean loadBooks(int page, String title) {
         if (Boolean.TRUE.equals(_isLoading.getValue())) return false;
         _isLoading.setValue(true);
 
-        _bookRepository.getBooks(page).observeForever(books -> {
+        _bookRepository.getBooks(page, title).observeForever(books -> {
             if (books != null) {
                 List<Book> currentList = _bookList.getValue();
                 if (currentList == null) {
@@ -80,6 +80,11 @@ public class BookViewModel extends ViewModel {
 
     public MutableLiveData<Book> addBook(BookRequest bookRequest, int authorId) {
         return _bookRepository.addBook(bookRequest, authorId);
+    }
+
+    public void clearBooks() {
+        _bookList.setValue(new ArrayList<>());
+        _bookTags.setValue(new ArrayList<>());
     }
 
     public void setSelectedBook(Book book) {

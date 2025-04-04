@@ -11,8 +11,11 @@ import com.example.p42_abc.model.Book;
 import com.example.p42_abc.model.BookRequest;
 import com.example.p42_abc.model.Tag;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.transform.Result;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,11 +29,11 @@ public class BookRepository {
         _apiService = apiService;
     }
 
-    public LiveData<List<Book>> getBooks(int page) {
+    public LiveData<List<Book>> getBooks(int page, String title) {
 
         MutableLiveData<List<Book>> bookList = new MutableLiveData<>();
 
-        Call<List<Book>> call = _apiService.getBooks(page, PAGE_SIZE);
+        Call<List<Book>> call = _apiService.getBooks(page, PAGE_SIZE, title);
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(@NonNull Call<List<Book>> call, @NonNull Response<List<Book>> response) {
@@ -62,25 +65,34 @@ public class BookRepository {
     }
 
 
-    public MutableLiveData<Book> addBook(BookRequest book, int authorId) {
-        MutableLiveData<Book> result = new MutableLiveData<>();
+    public MutableLiveData<Result<Book>> addBook(BookRequest book, int authorId) {
+        MutableLiveData<Result<Book>> result = new MutableLiveData<>();
 
         _apiService.addBook(authorId, book).enqueue(new Callback<Book>() {
             @Override
             public void onResponse(@NonNull Call<Book> call, @NonNull Response<Book> response) {
-                if (response.isSuccessful()) {
-                    Log.d("BookRepository", "Livre ajouté avec succès : " + response.body());
-                    result.setValue(response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("BookRepository", "Livre ajouté avec succès");
+                    result.setValue(Result.success(response.body()));
                 } else {
-                    Log.e("BookRepository", "Échec de l'ajout : " + response.errorBody());
-                    result.setValue(null);
+                    String errorMsg = "Réponse vide ou incorrecte du serveur";
+                    try {
+                        if (response.errorBody() != null) {
+                            errorMsg = response.errorBody().string();
+                        }
+                    } catch (IOException e) {
+                        errorMsg = "Erreur lors de la lecture du message d'erreur";
+                    }
+                    Log.e("BookRepository", "Échec de l'ajout: " + errorMsg);
+                    result.setValue(Result.error(errorMsg, null));
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Book> call, @NonNull Throwable t) {
-                Log.e("BookRepository", "Erreur réseau : " + t.getMessage());
-                result.setValue(null);
+                String errorMsg = "Erreur réseau: " + t.getMessage();
+                Log.e("BookRepository", errorMsg);
+                result.setValue(Result.error(errorMsg, null));
             }
         });
 

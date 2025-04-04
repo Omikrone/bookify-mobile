@@ -5,4 +5,7 @@ plugins {
 buildscript {
     repositories {
     }
+    dependencies {
+        classpath(libs.gradle)
+    }
 }

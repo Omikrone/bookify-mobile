@@ -87,6 +87,9 @@ public class AuthorViewModel extends ViewModel {
     public void clearBooks() {
         _authorBooks.setValue(new ArrayList<>());
     }
+    public void clearAuthors() {
+        _authorList.setValue(new ArrayList<>());
+    }
 
     public void setSelectedAuthor(Author author) {
         _selectedAuthor.setValue(author);

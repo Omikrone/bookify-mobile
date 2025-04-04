@@ -57,7 +57,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
     public void updateList(List<Author> authors) {
         _authorList.clear();
         _authorList.addAll(authors);
-        notifyDataSetChanged(); // TODO: Remplacer par DiffUtil pour plus d’efficacité
+        notifyDataSetChanged();
     }
 
     public static class AuthorViewHolder extends RecyclerView.ViewHolder {

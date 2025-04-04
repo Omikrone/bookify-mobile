@@ -32,11 +32,13 @@ public interface ApiService {
     @DELETE("authors/{author_id}")
     Call<Author> deleteAuthor(@Path("author_id") int authorId);
 
-    @GET("/authors/{author_id}/books")
+    @GET("authors/{author_id}/books")
     Call<List<Book>> getBooksByAuthor(@Path("author_id") int authorId);
 
     @GET("books")
-    Call<List<Book>> getBooks(@Query("page") int page, @Query("take") int take);
+    Call<List<Book>> getBooks(@Query("page") int page,
+                              @Query("take") int take,
+                              @Query("title") @Nullable String title);
 
     @POST("authors/{author_id}/books")
     Call<Book> addBook(@Path ("author_id") int authorId, @Body BookRequest bookRequest);

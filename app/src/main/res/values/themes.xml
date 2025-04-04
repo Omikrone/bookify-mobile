@@ -12,7 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorPrimaryContainer">@color/purple_200</item>
     </style>
-    <style name="Theme.P42abc.SearchView" parent="ThemeOverlay.MaterialComponents">
+    <!-- Add SearchView theme overlay -->
+    <style name="ThemeOverlay.SearchView" parent="ThemeOverlay.Material3.Dark">
+        <item name="searchViewStyle">@style/Widget.Material3.SearchView</item>
     </style>
 </resources>
