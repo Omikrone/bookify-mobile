@@ -18,6 +18,7 @@ import com.example.p42_abc.R;
 import com.example.p42_abc.model.Book;
 
 import com.bumptech.glide.Glide;
+import com.example.p42_abc.ui.author.AuthorAdapter;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.p42_abc.model.Author;
 import com.example.p42_abc.model.Book;
 import com.example.p42_abc.db.ApiService;
 import com.example.p42_abc.db.BookRepository;
@@ -19,6 +20,8 @@ public class BookViewModel extends ViewModel {
     private final MutableLiveData<Book> _selectedBook;
     private final MutableLiveData<List<Book>> _bookList;
     private final MutableLiveData<List<Tag>> _bookTags;
+    private final MutableLiveData<Book> _addedBook = new MutableLiveData<>();
+    private final MutableLiveData<String> _error = new MutableLiveData<>();
 
     private final BookRepository _bookRepository;
     private final MutableLiveData<Boolean> _isLoading = new MutableLiveData<>(false);
@@ -78,8 +81,16 @@ public class BookViewModel extends ViewModel {
         });
     }
 
-    public MutableLiveData<Book> addBook(BookRequest bookRequest, int authorId) {
-        return _bookRepository.addBook(bookRequest, authorId);
+    public LiveData<Book> addBook(BookRequest bookRequest, int authorId) {
+        return _bookRepository.addBook(authorId, bookRequest);
+    }
+
+    public LiveData<Book> getAddedBook() {
+        return _addedBook;
+    }
+
+    public LiveData<String> getError() {
+        return _error;
     }
 
     public void clearBooks() {

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.p42_abc.R;
 import com.example.p42_abc.databinding.FragmentBookBinding;
+import com.example.p42_abc.model.Author;
+import com.example.p42_abc.model.Book;
 import com.example.p42_abc.viewmodel.BookViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -166,5 +169,13 @@ public class BookFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         _binding = null;
+    }
+
+    public void onButtonClick(Book book) {
+        if (_bookViewModel.deleteBook(book)) {
+            Toast.makeText(getContext(), "Livre supprimé!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Erreur lors de la suppression du livre", Toast.LENGTH_SHORT).show();
+        }
     }
 }

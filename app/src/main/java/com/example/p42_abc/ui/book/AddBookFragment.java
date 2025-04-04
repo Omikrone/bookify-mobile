@@ -27,6 +27,7 @@ import androidx.navigation.Navigation;
 import com.example.p42_abc.R;
 import com.example.p42_abc.databinding.FragmentAddBookBinding;
 import com.example.p42_abc.model.Author;
+import com.example.p42_abc.model.AuthorRequest;
 import com.example.p42_abc.model.BookRequest;
 import com.example.p42_abc.viewmodel.AuthorViewModel;
 import com.example.p42_abc.viewmodel.BookViewModel;
@@ -58,6 +59,8 @@ public class AddBookFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        _viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
+
         _title = view.findViewById(R.id.bookTitleInput);
         _description = view.findViewById(R.id.descriptionBookInput);
         _publicationYear = view.findViewById(R.id.publicationYearBookInput);
@@ -85,8 +88,8 @@ public class AddBookFragment extends Fragment {
         _viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
     }
 
+
     private void setupAuthorDropdown() {
-        // Création de l'adapter personnalisé
         _authorAdapter = new ArrayAdapter<Author>(
                 requireContext(),
                 android.R.layout.simple_dropdown_item_1line
@@ -133,7 +136,8 @@ public class AddBookFragment extends Fragment {
             if (addedAuthor != null) {
                 Toast.makeText(getContext(), "Ajout réussi!", Toast.LENGTH_SHORT).show();
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.navigation_authors);
+                navController.navigate(R.id.navigation_books);
+
             } else {
                 Toast.makeText(getContext(), "Échec de l'ajout", Toast.LENGTH_SHORT).show();
             }
@@ -155,6 +159,13 @@ public class AddBookFragment extends Fragment {
             isValid = false;
         } else {
             _publicationYear.setBackgroundResource(R.drawable.edittext_normal);
+        }
+
+        if (_description.getText().toString().trim().isEmpty()) {
+            _description.setBackgroundResource(R.drawable.edittext_error);
+            isValid = false;
+        } else {
+            _description.setBackgroundResource(R.drawable.edittext_normal);
         }
 
         if (_selectedAuthor == null) {

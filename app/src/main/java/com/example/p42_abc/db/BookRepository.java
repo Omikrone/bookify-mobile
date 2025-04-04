@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.p42_abc.model.Author;
+import com.example.p42_abc.model.AuthorRequest;
 import com.example.p42_abc.model.Book;
 import com.example.p42_abc.model.BookRequest;
 import com.example.p42_abc.model.Tag;
@@ -65,34 +66,24 @@ public class BookRepository {
     }
 
 
-    public MutableLiveData<Result<Book>> addBook(BookRequest book, int authorId) {
-        MutableLiveData<Result<Book>> result = new MutableLiveData<>();
+    public MutableLiveData<Book> addBook(int authorId, BookRequest book) {
+        MutableLiveData<Book> result = new MutableLiveData<>();
 
         _apiService.addBook(authorId, book).enqueue(new Callback<Book>() {
             @Override
             public void onResponse(@NonNull Call<Book> call, @NonNull Response<Book> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Log.d("BookRepository", "Livre ajouté avec succès");
-                    result.setValue(Result.success(response.body()));
+                if (response.isSuccessful()) {
+                    result.setValue(response.body());
                 } else {
-                    String errorMsg = "Réponse vide ou incorrecte du serveur";
-                    try {
-                        if (response.errorBody() != null) {
-                            errorMsg = response.errorBody().string();
-                        }
-                    } catch (IOException e) {
-                        errorMsg = "Erreur lors de la lecture du message d'erreur";
-                    }
-                    Log.e("BookRepository", "Échec de l'ajout: " + errorMsg);
-                    result.setValue(Result.error(errorMsg, null));
+                    Log.e("AuthorRepository", "Échec de l'ajout : " + response.errorBody());
+                    result.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Book> call, @NonNull Throwable t) {
-                String errorMsg = "Erreur réseau: " + t.getMessage();
-                Log.e("BookRepository", errorMsg);
-                result.setValue(Result.error(errorMsg, null));
+                Log.e("AuthorRepository", "Erreur réseau : " + t.getMessage());
+                result.setValue(null);
             }
         });
 

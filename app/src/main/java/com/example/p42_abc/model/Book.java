@@ -26,7 +26,6 @@ public class Book {
     @SerializedName("avgRating")
     private float _avgRating;
 
-    private transient Author author;
 
     // Constructor
     public Book(int id, String title, int publicationYear, String cover, String description,
