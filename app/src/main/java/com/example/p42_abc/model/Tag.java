@@ -13,7 +13,7 @@ public class Tag {
     @SerializedName("color")
     private String _color;
 
-    // Constructor
+    // Constructeu
     public Tag(int id, String name, String color) {
         this._id = id;
         this._name = name;

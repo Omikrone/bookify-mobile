@@ -31,18 +31,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AuthorDetailsFragment extends Fragment {
-
     private AuthorViewModel _viewModel;
     private RecyclerView _booksRecyclerView;
     private BookAdapter _bookAdapter;
-
-    public AuthorDetailsFragment() {}
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_author_details, container, false);
+
+        // Initialisation des vues
         TextView authorFullName = view.findViewById(R.id.authorFullName);
         TextView authorBio = view.findViewById(R.id.authorBio);
         TextView authorBirthDate = view.findViewById(R.id.authorBirthDate);
@@ -51,9 +50,15 @@ public class AuthorDetailsFragment extends Fragment {
         Button authorDeleteButton = view.findViewById(R.id.authorDeleteButton);
         _booksRecyclerView = view.findViewById(R.id.booksRecyclerView);
 
+        // Configuration de la liste des livres
         setupAuthorBooks();
 
+        // Initialisation du ViewModel
         _viewModel = new ViewModelProvider(requireActivity()).get(AuthorViewModel.class);
+
+        /**
+         * Charge et observe les livres de l'auteur
+         */
         _viewModel.loadAuthorBooks();
         _viewModel.getAuthorBooks().observe(getViewLifecycleOwner(), books -> {
             if (books != null) {
@@ -61,61 +66,107 @@ public class AuthorDetailsFragment extends Fragment {
             }
         });
 
+        /**
+         * Gestion de la suppression de l'auteur
+         */
         authorDeleteButton.setOnClickListener(v -> {
             if (_viewModel.deleteAuthor(_viewModel.getSelectedAuthor().getValue())) {
-                Toast.makeText(getContext(), "Auteur supprimé!", Toast.LENGTH_SHORT).show();
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.navigation_authors);
+                showToast("Auteur supprimé!");
+                navigateToAuthorsList();
             } else {
-                Toast.makeText(getContext(), "Erreur lors de la suppression de l'auteur", Toast.LENGTH_SHORT).show();
+                showToast("Erreur lors de la suppression");
             }
         });
 
+        /**
+         * Observation des données de l'auteur sélectionné
+         */
         _viewModel.getSelectedAuthor().observe(getViewLifecycleOwner(), author -> {
             if (author != null) {
-                Log.d("AuthorDetailsFragment", "Selected Author: " + author.getFirstname() + " " + author.getLastname());
+                Log.d("AuthorDetails", "Affichage de: " + author.getFirstname());
+
+                // Affichage des informations de base
                 authorFullName.setText(author.getFirstname() + " " + author.getLastname());
-                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
                 if (author.getBio() != null) {
                     authorBio.setText(author.getBio());
                 }
 
-                if (author.getBirthDate() != null) {
-                    LocalDateTime birthDateTime = Instant.parse(author.getBirthDate())
-                            .atZone(ZoneOffset.UTC).toLocalDateTime();
-                    authorBirthDate.setText("Date de naissance: " + birthDateTime.format(outputFormatter));
-                }
-                if (author.getDeathDate() != null) {
-                    LocalDateTime deathDateTime = Instant.parse(author.getBirthDate())
-                            .atZone(ZoneOffset.UTC).toLocalDateTime();
-                    authorDeathDate.setText("Date de décès: " + deathDateTime.format(outputFormatter));
-                }
-                String imageUrl = author.getImage();
+                // Formatage et affichage des dates
+                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                formatAndDisplayDate(author.getBirthDate(), authorBirthDate, "Date de naissance: ", outputFormatter);
+                formatAndDisplayDate(author.getDeathDate(), authorDeathDate, "Date de décès: ", outputFormatter);
 
-                Glide.with(getContext())
-                        .load(imageUrl)
-                        .circleCrop()
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.error)
-                        .into(authorImage);
+                // Chargement de l'image
+                loadAuthorImage(author.getImage(), authorImage);
             }
         });
 
         return view;
     }
 
-    public void setupAuthorBooks() {
+    /**
+     * Configure le RecyclerView pour afficher les livres de l'auteur
+     */
+    private void setupAuthorBooks() {
         _booksRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         _bookAdapter = new BookAdapter(new ArrayList<>(), book -> {
             _viewModel.clearBooks();
             BookViewModel bookViewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
             bookViewModel.setSelectedBook(book);
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-            navController.navigate(R.id.action_authorFragment_to_bookDetailsFragment);
+            navigateToBookDetails();
         });
 
         _booksRecyclerView.setAdapter(_bookAdapter);
+    }
+
+    /**
+     * Formate et affiche une date dans un TextView
+     */
+    private void formatAndDisplayDate(String isoDate, TextView textView, String prefix,
+                                      DateTimeFormatter formatter) {
+        if (isoDate != null) {
+            LocalDateTime dateTime = Instant.parse(isoDate)
+                    .atZone(ZoneOffset.UTC).toLocalDateTime();
+            textView.setText(prefix + dateTime.format(formatter));
+        }
+    }
+
+    /**
+     * Charge l'image de l'auteur avec Glide
+     */
+    private void loadAuthorImage(String imageUrl, ImageView imageView) {
+        Glide.with(getContext())
+                .load(imageUrl)
+                .circleCrop()
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into(imageView);
+    }
+
+    /**
+     * Affiche un message Toast
+     */
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Navigation vers la liste des auteurs
+     */
+    private void navigateToAuthorsList() {
+        NavController navController = Navigation.findNavController(requireActivity(),
+                R.id.nav_host_fragment_activity_main);
+        navController.navigate(R.id.navigation_authors);
+    }
+
+    /**
+     * Navigation vers les détails d'un livre
+     */
+    private void navigateToBookDetails() {
+        NavController navController = Navigation.findNavController(requireActivity(),
+                R.id.nav_host_fragment_activity_main);
+        navController.navigate(R.id.action_authorFragment_to_bookDetailsFragment);
     }
 }

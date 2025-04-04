@@ -27,7 +27,7 @@ public class Book {
     private float _avgRating;
 
 
-    // Constructor
+    // Constructeur
     public Book(int id, String title, int publicationYear, String cover, String description,
                 int authorId, float avgRating) {
         this._id = id;

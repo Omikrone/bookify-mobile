@@ -34,12 +34,9 @@ import com.google.android.material.chip.Chip;
 import java.util.List;
 
 public class BookDetailsFragment extends Fragment {
-
     private View _view = null;
-    private FlexboxLayout _bookTags = null;
+    private FlexboxLayout _bookTags = null; // Conteneur pour les tags
     private BookViewModel _viewModel = null;
-
-    public BookDetailsFragment() {}
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -47,6 +44,7 @@ public class BookDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         _view = inflater.inflate(R.layout.fragment_book_details, container, false);
 
+        // Initialisation des vues
         TextView bookTitle = _view.findViewById(R.id.bookTitle);
         TextView bookPublicationYear = _view.findViewById(R.id.publicationYear);
         TextView bookDescription = _view.findViewById(R.id.description);
@@ -55,70 +53,111 @@ public class BookDetailsFragment extends Fragment {
         RatingBar bookRatingBar = _view.findViewById(R.id.bookRating);
         _bookTags = _view.findViewById(R.id.tagsContainer);
 
+        // Initialisation du ViewModel
         _viewModel = new ViewModelProvider(requireActivity()).get(BookViewModel.class);
         Book selectedBook = _viewModel.getSelectedBook().getValue();
+
+        // Chargement des tags associés au livre
         _viewModel.loadTags(selectedBook.getId());
-
         setupTags();
-        bookDeleteButton.setOnClickListener(v -> {
 
+        /**
+         * Gestion de la suppression du livre
+         */
+        bookDeleteButton.setOnClickListener(v -> {
             if (_viewModel.deleteBook(selectedBook)) {
-                Toast.makeText(getContext(), "Livre supprimé!", Toast.LENGTH_SHORT).show();
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
-                navController.navigate(R.id.navigation_books);
+                showToast("Livre supprimé!");
+                navigateToBookList();
             } else {
-                Toast.makeText(getContext(), "Erreur lors de la suppression du livre", Toast.LENGTH_SHORT).show();
+                showToast("Erreur lors de la suppression");
             }
         });
 
+        /**
+         * Observation des données du livre sélectionné
+         */
         _viewModel.getSelectedBook().observe(getViewLifecycleOwner(), book -> {
             if (book != null) {
+                // Affichage des informations de base
                 bookRatingBar.setRating(selectedBook.getAvgRating());
                 bookTitle.setText(book.getTitle());
-                bookPublicationYear.setText("" + book.getPublicationYear());
+                bookPublicationYear.setText(String.valueOf(book.getPublicationYear()));
                 bookDescription.setText(book.getDescription());
 
-                String imageUrl = selectedBook.getCover() + "?default=false";
-                imageUrl = imageUrl.trim().replaceAll("\\p{C}", "");
-                Glide.with(getContext())
-                        .load(imageUrl)
-                        .placeholder(R.drawable.placeholder)
-                        .error(R.drawable.placeholder)
-                        .into(bookImage);
+                // Chargement de l'image de couverture
+                loadBookCover(selectedBook.getCover(), bookImage);
             }
         });
 
         return _view;
     }
 
+    /**
+     * Configure l'affichage des tags sous forme de chips
+     */
     private void setupTags() {
-        MutableLiveData<List<Tag>> tags = _viewModel.getBookTags();
         FlexboxLayout flexboxLayout = _view.findViewById(R.id.tagsContainer);
-        flexboxLayout.removeAllViews();
+        flexboxLayout.removeAllViews(); // Nettoyage préalable
 
-        tags.observe(getViewLifecycleOwner(), tagList -> {
+        _viewModel.getBookTags().observe(getViewLifecycleOwner(), tagList -> {
             if (tagList != null) {
                 for (Tag tag : tagList) {
-                    ColorStateList colorStateList = ColorStateList.valueOf(Color.parseColor(tag.getColor()));
-                    Chip chip = new Chip(requireContext());
-                    chip.setGravity(Gravity.CENTER);
-                    chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    chip.setChipBackgroundColor(colorStateList);
-                    chip.setTextColor(Color.WHITE);
-                    chip.setChipStrokeWidth(1f);
-                    chip.setChipStrokeColor(ColorStateList.valueOf(
-                            ContextCompat.getColor(requireContext(), R.color.outline)));
-                    chip.setChipCornerRadius(getResources().getDimension(R.dimen.tag_corner_radius));
-                    int paddingHorizontal = getResources().getDimensionPixelSize(R.dimen.tag_padding_horizontal);
-                    int paddingVertical = getResources().getDimensionPixelSize(R.dimen.tag_padding_vertical);
-                    chip.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
-
-                    chip.setCloseIconVisible(false);
-                    chip.setText(tag.getName());
-                    chip.setPadding(16, 8, 16, 8);
-                    _bookTags.addView(chip);
+                    createTagChip(tag);
                 }
             }
         });
+    }
+
+    /**
+     * Crée un chip pour un tag donné
+     */
+    private void createTagChip(Tag tag) {
+        Chip chip = new Chip(requireContext());
+        // Configuration visuelle du chip
+        chip.setGravity(Gravity.CENTER);
+        chip.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor(tag.getColor())));
+        chip.setTextColor(Color.WHITE);
+        chip.setChipStrokeWidth(1f);
+        chip.setChipStrokeColor(ColorStateList.valueOf(
+                ContextCompat.getColor(requireContext(), R.color.outline)));
+        chip.setChipCornerRadius(getResources().getDimension(R.dimen.tag_corner_radius));
+
+        // Gestion des padding
+        int paddingHorizontal = getResources().getDimensionPixelSize(R.dimen.tag_padding_horizontal);
+        int paddingVertical = getResources().getDimensionPixelSize(R.dimen.tag_padding_vertical);
+        chip.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
+
+        chip.setCloseIconVisible(false);
+        chip.setText(tag.getName());
+        _bookTags.addView(chip);
+    }
+
+    /**
+     * Charge l'image de couverture avec Glide
+     */
+    private void loadBookCover(String imageUrl, ImageView imageView) {
+        String cleanedUrl = imageUrl.trim().replaceAll("\\p{C}", "") + "?default=false";
+        Glide.with(getContext())
+                .load(cleanedUrl)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(imageView);
+    }
+
+    /**
+     * Affiche un message Toast
+     */
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Navigue vers la liste des livres
+     */
+    private void navigateToBookList() {
+        NavController navController = Navigation.findNavController(requireActivity(),
+                R.id.nav_host_fragment_activity_main);
+        navController.navigate(R.id.navigation_books);
     }
 }

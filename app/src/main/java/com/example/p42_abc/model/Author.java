@@ -25,7 +25,7 @@ public class Author {
     @SerializedName("deathDate")
     private String deathDate;
 
-    // Constructor
+    // Constructeur
     public Author(int id, String firstname, String lastname, String image, String bio, String birthDate, String deathDate) {
         this.id = id;
         this.firstname = firstname;
@@ -36,7 +36,7 @@ public class Author {
         this.deathDate = deathDate;
     }
 
-    // Getters and setters
+    // Getters et setters
     public int getId() {
         return id;
     }

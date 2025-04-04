@@ -21,7 +21,7 @@ public class AuthorRequest {
     @SerializedName("deathDate")
     private String _deathDate;
 
-    // Constructor
+    // Constructeur
     public AuthorRequest(String firstname, String lastname, String image, String bio, String birthDate, String deathDate) {
         this._firstname = firstname;
         this._lastname = lastname;

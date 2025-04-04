@@ -15,7 +15,7 @@ public class BookRequest {
     @SerializedName("description")
     private String _description;
 
-    // Constructor
+    // Constructeur
     public BookRequest(String title, int publicationYear, String description) {
         this._title = title;
         this._publicationYear = publicationYear;
