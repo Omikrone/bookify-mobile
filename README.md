@@ -4,7 +4,8 @@ Projet ABC - Android Books Client
 ## Foreword
 
 This project was developed as part of my academic studies in computer science.
-It is a graphic game developed in Java using Swing, and it was developed in pairs over a one-month period.
+It is a mobile application for Android meant to display and manage books and authors.
+It is based on the bookify API developed, which you can find [here](https://github.com/nizarsaidicoder/bookify_api).
 
 Préparation du dépôt
 --------------------
